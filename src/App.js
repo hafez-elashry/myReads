@@ -2,30 +2,25 @@ import React from 'react'
 import './App.css'
 import * as BooksAPI from './BooksAPI';
 import { Route } from 'react-router';
-
 import SearchPage from './component/SearchPage';
 import Header from './component/Header';
 import Shelves from './component/Shelves';
 import SearchButton from './component/SearchButton';
-import { debounce } from 'debounce';
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
     showSearchPage: false,
     allBooks: [],
     searchBooks: [],
     error: false
   }
   async componentDidMount(){
-   const books = await BooksAPI.getAll();
-   this.setState({allBooks: books})
-   console.log("Iam Here",books)
+    try{
+      const books = await BooksAPI.getAll();
+      this.setState({allBooks: books})
+    }catch(error) {
+      console.log("Sorry!! can't reach to website")
+    }
   }
 
   updateShowSearch = (value) => {
@@ -33,6 +28,7 @@ class BooksApp extends React.Component {
   }
 
   onChangeShelf = (book, value) => {
+    console.log("before",book.shelf)
     BooksAPI.update(book, value).catch(err => {
       console.log(err);
       this.setState({ error: true });
@@ -43,29 +39,33 @@ class BooksApp extends React.Component {
       }));
     } else {
       book.shelf = value;
+      console.log("after2",book.shelf)
       this.setState(prevState => ({
         allBooks: prevState.allBooks.filter(b => b.id !== book.id).concat(book)
       }));
     }
-}
-  searchOnBooks = debounce((val) => {
+  }
+
+  searchOnBooks = (val) => {
     if(val.length > 0 ) {
-      BooksAPI.search(val).then(books =>{
-        if (books.error){
-          this.setState({searchBooks:[]})
-        }else
-        this.setState({searchBooks:books})
-      })  
-    }else {
-      this.setState({searchBooks:[]})
+      try{
+        BooksAPI.search(val).then(books =>{
+          if (books.error){
+            this.setState({searchBooks:[]})
+          }else
+          this.setState({searchBooks:books})
+        })
+      }catch(error){
+        console.log("sorry!!")
+      }
     }
-  },10);
+    // else {
+    //   this.setState({searchBooks:[]})
+    // }
+  };
 
   resetSearchBooks = () => {
     this.setState({searchBooks:[]})
-  }
-  componentWillUnmount(){
-    this.searchOnBooks.cancel();
   }
 
   render() {
@@ -80,9 +80,10 @@ class BooksApp extends React.Component {
             </div>
           )
         }}/>
-        <Route path="/search" render={ () => (
+        <Route path="/search" render={() => (
           <SearchPage
             searchBooks={this.state.searchBooks}
+            allBooks={this.state.allBooks}
             onChangeShelf={this.onChangeShelf}
             onSearch={this.searchOnBooks}
             resetSearchBooks={this.resetSearchBooks}

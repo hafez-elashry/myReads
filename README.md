@@ -10,6 +10,10 @@ To get started developing right away:
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
+or
+
+steps to install the project (yarn install or just yarn to install the dependencies of the project).
+steps to start the project (yarn start to launch the project).
 
 ## What You're Getting
 ```bash

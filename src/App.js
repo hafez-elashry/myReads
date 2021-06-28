@@ -59,9 +59,9 @@ class BooksApp extends React.Component {
         console.log("sorry!!")
       }
     }
-    // else {
-    //   this.setState({searchBooks:[]})
-    // }
+    else {
+      this.setState({searchBooks:[]})
+    }
   };
 
   resetSearchBooks = () => {

@@ -2,6 +2,8 @@ import React from 'react'
 
 class Shelf extends React.Component {
     render() {
+      const noCoverImage = '../img/no_cover_thumb.gif';
+
         return (
           <div className="bookshelf">
           <h2 className="bookshelf-title">{this.props.title}</h2>
@@ -11,7 +13,9 @@ class Shelf extends React.Component {
                 <li key={book.id}>
                   <div className="book">
                     <div className="book-top">
-                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail? book.imageLinks.smallThumbnail : "no cover image"})`}}></div>
+                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks && book.imageLinks.thumbnail
+                        ? book.imageLinks.thumbnail
+                        : noCoverImage})`}}></div>
                       <div className="book-shelf-changer">
                         <select
                           value={book.shelf}

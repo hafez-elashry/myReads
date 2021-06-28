@@ -28,11 +28,11 @@ class BooksApp extends React.Component {
   }
 
   onChangeShelf = (book, value) => {
-    console.log("before",book.shelf)
     BooksAPI.update(book, value).catch(err => {
       console.log(err);
       this.setState({ error: true });
     });
+
     if (value === 'none') {
       this.setState(prevState => ({
         allBooks: prevState.allBooks.filter(b => b.id !== book.id)
@@ -44,6 +44,7 @@ class BooksApp extends React.Component {
         allBooks: prevState.allBooks.filter(b => b.id !== book.id).concat(book)
       }));
     }
+    console.log(book.imageLinks.smallThumbnail)
   }
 
   searchOnBooks = (val) => {

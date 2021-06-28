@@ -11,7 +11,7 @@ class Shelf extends React.Component {
                 <li key={book.id}>
                   <div className="book">
                     <div className="book-top">
-                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail? book.imageLinks.smallThumbnail : ""})`}}></div>
+                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail? book.imageLinks.smallThumbnail : "no cover image"})`}}></div>
                       <div className="book-shelf-changer">
                         <select
                           value={book.shelf}

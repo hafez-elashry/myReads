@@ -3,6 +3,7 @@ import SearchInput from './SearchInput';
 
 class SearchPage extends React.Component {
     render() {
+      const noCoverImage = '../img/no_cover_thumb.gif'
       const updateBooks = this.props.searchBooks.map( book => {
         this.props.allBooks.map(bk => {
           if(book.id === bk.id){
@@ -21,7 +22,7 @@ class SearchPage extends React.Component {
               <li key={book.id}>
               <div className="book">
                 <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail ? book.imageLinks.smallThumbnail : ""})`}}></div>
+                  <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail ? book.imageLinks.smallThumbnail : noCoverImage})`}}></div>
                   <div className="book-shelf-changer">
                     <select
                       value={book.shelf? book.shelf : "none"}
